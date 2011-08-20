@@ -1,0 +1,18 @@
+*commentary.txt*  Comment stuff out
+
+Author:  Tim Pope <http://tpo.pe/>
+License: Same terms as Vim itself (see |license|)
+
+Comment stuff out.  Then uncomment it later.  Relies on 'commentstring' to be
+correctly set.
+
+                                                *\\*
+\\{motion}              Comment or uncomment lines that {motion} moves over.
+
+                                                *\\\*
+\\\                     Comment or uncomment [count] lines.
+
+                                                *v_\\*
+{Visual}\\              Comment or uncomment the highlighted lines.
+
+ vim:tw=78:et:ft=help:norl:
