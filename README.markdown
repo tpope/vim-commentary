@@ -12,7 +12,7 @@ repeating with `.` the line commenting map `\\\`.
 I wrote this because 5 years after Vim added support for mapping an
 operator, I still couldn't find a commenting plugin that leveraged that
 feature (I overlooked
-[tcomment.vim](https://github.com/tomtom/tcomment_vim).  Striving for
+[tcomment.vim](https://github.com/tomtom/tcomment_vim)).  Striving for
 minimalism, the first version weighed in at just 35 lines of code.
 
 Oh, and it uncomments, too.
