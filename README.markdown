@@ -56,7 +56,7 @@ See the contribution guidelines for
 Self-Promotion
 --------------
 
-Like rails.vim? Follow the repository on
+Like commentary.vim? Follow the repository on
 [GitHub](https://github.com/tpope/vim-commentary) and vote for it on
 [vim.org](http://www.vim.org/scripts/script.php?script_id=3695).  And if
 you're feeling especially charitable, follow [tpope](http://tpo.pe/) on
