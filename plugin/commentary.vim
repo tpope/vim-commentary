@@ -8,7 +8,7 @@ if exists("g:loaded_commentary") || &cp || v:version < 700
 endif
 let g:loaded_commentary = 1
 
-function! s:go(type)
+function! s:go(type) abort
   if a:type =~ '^\d\+$'
     let [lnum1, lnum2] = [line("."), line(".") + a:type - 1]
   elseif a:type =~ '^.$'
@@ -17,20 +17,26 @@ function! s:go(type)
     let [lnum1, lnum2] = [line("'["), line("']")]
   endif
 
-  let [before, after] = split(&commentstring,"%s",1)
-  let uncomment = 1
+  let [l, r] = split(&cms == '/*%s*/' ? '/* %s */' : &cms,'%s',1)
+  let uncomment = 2
   for lnum in range(lnum1,lnum2)
     let line = matchstr(getline(lnum),'\S.*\s\@<!')
-    if line != '' && (stridx(line,before) || line[strlen(line)-strlen(after) : -1] != after)
+    if line != '' && (stridx(line,l) || line[strlen(line)-strlen(r) : -1] != r)
       let uncomment = 0
     endif
   endfor
 
   for lnum in range(lnum1,lnum2)
+    let line = getline(lnum)
+    if strlen(r) > 1 && l.r !~# '\\'
+      let line = substitute(line,
+            \'\M'.r[0:-2].'\zs\d\*\ze'.r[-1:-1].'\|'.l[0].'\zs\d\*\ze'.l[1:-1],
+            \'\=substitute(submatch(0)+1-uncomment,"^0$\\|^-\\d*$","","")','g')
+    endif
     if uncomment
-      let line = substitute(getline(lnum),'\S.*\s\@<!','\=submatch(0)[strlen(before):-strlen(after)-1]','')
+      let line = substitute(line,'\S.*\s\@<!','\=submatch(0)[strlen(l):-strlen(r)-1]','')
     else
-      let line = substitute(getline(lnum),'\S.*\s\@<!','\=printf(&commentstring,submatch(0))','')
+      let line = substitute(line,'\S.*\s\@<!','\=l.submatch(0).r','')
     endif
     call setline(lnum,line)
   endfor
