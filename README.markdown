@@ -11,8 +11,9 @@ repeating with `.` the line commenting map `\\\`.
 
 I wrote this because 5 years after Vim added support for mapping an
 operator, I still couldn't find a commenting plugin that leveraged that
-feature.  Striving for minimalism, the first version weighed in at just
-35 lines of code.
+feature (I overlooked
+[tcomment.vim](https://github.com/tomtom/tcomment_vim).  Striving for
+minimalism, the first version weighed in at just 35 lines of code.
 
 Oh, and it uncomments, too.
 
@@ -42,9 +43,9 @@ Relax!  You just have to adjust `'commentstring'`:
 
 Fly by the seat of your pants and map directly to the `\` maps:
 
-    xmap ,,  \\
-    nmap ,,  \\
-    nmap ,,, \\\
+    xmap gc  \\
+    nmap gc  \\
+    nmap gcc \\\
 
 Contributing
 ------------
