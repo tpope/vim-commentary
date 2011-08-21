@@ -30,7 +30,7 @@ function! s:go(type)
     if uncomment
       let line = substitute(getline(lnum),'\S.*\s\@<!','\=submatch(0)[strlen(before):-strlen(after)-1]','')
     else
-      let line = substitute(getline(lnum),'\S.*\s\@<!','\=printf(&commentstring,submatch(0))','')
+      let line = substitute(getline(lnum),'^\%('.matchstr(getline(lnum1),'^\s*').'\|\s*\)\zs.*\s\@<!','\=before.submatch(0).after','')
     endif
     call setline(lnum,line)
   endfor
