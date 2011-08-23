@@ -8,7 +8,7 @@ if exists("g:loaded_commentary") || &cp || v:version < 700
 endif
 let g:loaded_commentary = 1
 
-function! s:go(type)
+function! s:go(type) abort
   if a:type =~ '^\d\+$'
     let [lnum1, lnum2] = [line("."), line(".") + a:type - 1]
   elseif a:type =~ '^.$'
