@@ -17,7 +17,7 @@ function! s:go(type) abort
     let [lnum1, lnum2] = [line("'["), line("']")]
   endif
 
-  let [before, after] = split(&commentstring,"%s",1)
+  let [before, after] = split(substitute(substitute(&commentstring,'\S\zs%s',' %s',''),'%s\ze\S','%s ',''),'%s',1)
   let uncomment = 1
   for lnum in range(lnum1,lnum2)
     let line = matchstr(getline(lnum),'\S.*\s\@<!')
