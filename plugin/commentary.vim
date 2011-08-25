@@ -18,15 +18,15 @@ function! s:go(type) abort
   endif
 
   let [before, after] = split(substitute(substitute(&commentstring,'\S\zs%s',' %s',''),'%s\ze\S','%s ',''),'%s',1)
-  let uncomment = 1
+
   for lnum in range(lnum1,lnum2)
+    let uncomment = 1
+
     let line = matchstr(getline(lnum),'\S.*\s\@<!')
     if line != '' && (stridx(line,before) || line[strlen(line)-strlen(after) : -1] != after)
       let uncomment = 0
     endif
-  endfor
 
-  for lnum in range(lnum1,lnum2)
     if uncomment
       let line = substitute(getline(lnum),'\S.*\s\@<!','\=submatch(0)[strlen(before):-strlen(after)-1]','')
     else
