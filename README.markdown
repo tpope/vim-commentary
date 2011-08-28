@@ -39,14 +39,6 @@ Relax!  You just have to adjust `'commentstring'`:
 
     autocmd FileType apache set commentstring=#\ %s
 
-> What if I want custom maps?
-
-Fly by the seat of your pants and map directly to the `\` maps:
-
-    xmap gc  \\
-    nmap gc  \\
-    nmap gcc \\\
-
 Contributing
 ------------
 

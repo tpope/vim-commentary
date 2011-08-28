@@ -46,8 +46,14 @@ function! s:go(type) abort
   endif
 endfunction
 
-xnoremap <silent> \\  :<C-U>call <SID>go(visualmode())<CR>
-nnoremap <silent> \\  :<C-U>set opfunc=<SID>go<CR>g@
-nnoremap <silent> \\\ :<C-U>call <SID>go(v:count1)<CR>
+xnoremap <silent> <Plug>Commentary     :<C-U>call <SID>go(visualmode())<CR>
+nnoremap <silent> <Plug>Commentary     :<C-U>set opfunc=<SID>go<CR>g@
+nnoremap <silent> <Plug>CommentaryLine :<C-U>call <SID>go(v:count1)<CR>
+
+if maparg('\\') ==# ''
+  xmap \\  <Plug>Commentary
+  nmap \\  <Plug>Commentary
+  nmap \\\ <Plug>CommentaryLine
+endif
 
 " vim:set sw=2 sts=2:
