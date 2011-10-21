@@ -50,7 +50,7 @@ xnoremap <silent> <Plug>Commentary     :<C-U>call <SID>go(visualmode())<CR>
 nnoremap <silent> <Plug>Commentary     :<C-U>set opfunc=<SID>go<CR>g@
 nnoremap <silent> <Plug>CommentaryLine :<C-U>call <SID>go(v:count1)<CR>
 
-if maparg('\\') ==# ''
+if !hasmapto('<Plug>Commentary') || maparg('\\','n') ==# '' && maparg('\','n') ==# ''
   xmap \\  <Plug>Commentary
   nmap \\  <Plug>Commentary
   nmap \\\ <Plug>CommentaryLine
