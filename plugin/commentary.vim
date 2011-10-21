@@ -42,7 +42,7 @@ function! s:go(type) abort
   endfor
 
   if a:type =~ '^\d\+$'
-    silent! call repeat#set('\\\',a:type)
+    silent! call repeat#set("\<Plug>CommentaryLine",a:type)
   endif
 endfunction
 
