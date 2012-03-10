@@ -13,7 +13,7 @@ I wrote this because 5 years after Vim added support for mapping an
 operator, I still couldn't find a commenting plugin that leveraged that
 feature (I overlooked
 [tcomment.vim](https://github.com/tomtom/tcomment_vim)).  Striving for
-minimalism, it weighs in at less than 50 lines of code.
+minimalism, it weighs in at under 100 lines of code.
 
 Oh, and it uncomments, too.
 
