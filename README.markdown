@@ -15,7 +15,8 @@ feature (I overlooked
 [tcomment.vim](https://github.com/tomtom/tcomment_vim)).  Striving for
 minimalism, it weighs in at under 100 lines of code.
 
-Oh, and it uncomments, too.
+Oh, and it uncomments, too.  The above maps actually toggle, and `\\u`
+uncomments a set of adjacent commented lines.
 
 Installation
 ------------

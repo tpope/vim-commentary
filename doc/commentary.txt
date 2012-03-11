@@ -15,4 +15,7 @@ correctly set.
                                                 *v_\\*
 {Visual}\\              Comment or uncomment the highlighted lines.
 
+                                                *\\u*
+\\u                     Uncomment the current and adjacent commented lines.
+
  vim:tw=78:et:ft=help:norl:

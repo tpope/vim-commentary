@@ -8,11 +8,9 @@ if exists("g:loaded_commentary") || &cp || v:version < 700
 endif
 let g:loaded_commentary = 1
 
-function! s:go(type) abort
-  if a:type =~ '^\d\+$'
-    let [lnum1, lnum2] = [line("."), line(".") + a:type - 1]
-  elseif a:type =~ '^.$'
-    let [lnum1, lnum2] = [line("'<"), line("'>")]
+function! s:go(type,...) abort
+  if a:0
+    let [lnum1, lnum2] = [a:type, a:1]
   else
     let [lnum1, lnum2] = [line("'["), line("']")]
   endif
@@ -46,14 +44,28 @@ function! s:go(type) abort
   endif
 endfunction
 
-xnoremap <silent> <Plug>Commentary     :<C-U>call <SID>go(visualmode())<CR>
+function! s:undo()
+  let [l, r] = split(substitute(substitute(&commentstring,'\S\zs%s',' %s',''),'%s\ze\S','%s ',''),'%s',1)
+  let lnums = [line('.')+1, line('.')-2]
+  for [index, dir, bound, line] in [[0, -1, 1, ''], [1, 1, line('$'), '']]
+    while lnums[index] != bound && line ==# '' || !(stridx(line,l) || line[strlen(line)-strlen(r) : -1] != r)
+      let lnums[index] += dir
+      let line = matchstr(getline(lnums[index]+dir),'\S.*\s\@<!')
+    endwhile
+  endfor
+  call s:go(lnums[0], lnums[1])
+endfunction
+
+xnoremap <silent> <Plug>Commentary     :<C-U>call <SID>go(line("'<"),line("'>"))<CR>
 nnoremap <silent> <Plug>Commentary     :<C-U>set opfunc=<SID>go<CR>g@
-nnoremap <silent> <Plug>CommentaryLine :<C-U>call <SID>go(v:count1)<CR>
+nnoremap <silent> <Plug>CommentaryLine :<C-U>call <SID>go(line("."),line(".")-1+v:count1)<CR>
+nnoremap <silent> <Plug>CommentaryUndo :<C-U>call <SID>undo()<CR>
 
 if !hasmapto('<Plug>Commentary') || maparg('\\','n') ==# '' && maparg('\','n') ==# ''
   xmap \\  <Plug>Commentary
   nmap \\  <Plug>Commentary
   nmap \\\ <Plug>CommentaryLine
+  nmap \\u <Plug>CommentaryUndo
 endif
 
 " vim:set sw=2 sts=2:
