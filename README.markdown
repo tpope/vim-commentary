@@ -6,9 +6,6 @@ Comment stuff out.  Use `\\\` to comment out a line (takes a count),
 comment out a paragraph), and `\\` in visual mode to comment out the
 selection.  That's it.
 
-Install [repeat.vim](https://github.com/tpope/vim-repeat) to enable
-repeating with `.` the line commenting map `\\\`.
-
 I wrote this because 5 years after Vim added support for mapping an
 operator, I still couldn't find a commenting plugin that leveraged that
 feature (I overlooked
@@ -16,7 +13,9 @@ feature (I overlooked
 minimalism, it weighs in at under 100 lines of code.
 
 Oh, and it uncomments, too.  The above maps actually toggle, and `\\u`
-uncomments a set of adjacent commented lines.
+uncomments a set of adjacent commented lines.  Install
+[repeat.vim](https://github.com/tpope/vim-repeat) to enable
+repeating `\\u` with `.` (the other maps are repeatable without it).
 
 Installation
 ------------

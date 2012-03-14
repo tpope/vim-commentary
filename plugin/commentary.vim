@@ -38,10 +38,6 @@ function! s:go(type,...) abort
     endif
     call setline(lnum,line)
   endfor
-
-  if a:type =~ '^\d\+$'
-    silent! call repeat#set("\<Plug>CommentaryLine",a:type)
-  endif
 endfunction
 
 function! s:undo()
@@ -54,11 +50,12 @@ function! s:undo()
     endwhile
   endfor
   call s:go(lnums[0], lnums[1])
+  silent! call repeat#set("\<Plug>CommentaryUndo")
 endfunction
 
 xnoremap <silent> <Plug>Commentary     :<C-U>call <SID>go(line("'<"),line("'>"))<CR>
 nnoremap <silent> <Plug>Commentary     :<C-U>set opfunc=<SID>go<CR>g@
-nnoremap <silent> <Plug>CommentaryLine :<C-U>call <SID>go(line("."),line(".")-1+v:count1)<CR>
+nnoremap <silent> <Plug>CommentaryLine :<C-U>set opfunc=<SID>go<Bar>exe 'norm! 'v:count1.'g@_'<CR>
 nnoremap <silent> <Plug>CommentaryUndo :<C-U>call <SID>undo()<CR>
 
 if !hasmapto('<Plug>Commentary') || maparg('\\','n') ==# '' && maparg('\','n') ==# ''
