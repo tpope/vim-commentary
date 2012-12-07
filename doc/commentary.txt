@@ -6,16 +6,23 @@ License: Same terms as Vim itself (see |license|)
 Comment stuff out.  Then uncomment it later.  Relies on 'commentstring' to be
 correctly set.
 
-                                                *\\*
+The \\ mappings are traditional, while the gc mappings are an experimental set
+that may eventually become the default.
+
+                                                *\\* *gc*
 \\{motion}              Comment or uncomment lines that {motion} moves over.
+gc{motion}
 
-                                                *\\\*
+                                                *\\\* *gcc*
 \\\                     Comment or uncomment [count] lines.
+gcc
 
-                                                *v_\\*
+                                                *v_\\* *v_gc*
 {Visual}\\              Comment or uncomment the highlighted lines.
+{Visual}gc
 
-                                                *\\u*
+                                                *\\u* *gcu*
 \\u                     Uncomment the current and adjacent commented lines.
+gcu
 
  vim:tw=78:et:ft=help:norl:

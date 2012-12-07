@@ -65,4 +65,11 @@ if !hasmapto('<Plug>Commentary') || maparg('\\','n') ==# '' && maparg('\','n') =
   nmap \\u <Plug>CommentaryUndo
 endif
 
+if maparg('gc','n') ==# ''
+  xmap gc  <Plug>Commentary
+  nmap gc  <Plug>Commentary
+  nmap gcc <Plug>CommentaryLine
+  nmap gcu <Plug>CommentaryUndo
+endif
+
 " vim:set et sw=2:
