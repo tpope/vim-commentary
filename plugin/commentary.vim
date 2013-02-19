@@ -58,18 +58,18 @@ nnoremap <silent> <Plug>Commentary     :<C-U>set opfunc=<SID>go<CR>g@
 nnoremap <silent> <Plug>CommentaryLine :<C-U>set opfunc=<SID>go<Bar>exe 'norm! 'v:count1.'g@_'<CR>
 nnoremap <silent> <Plug>CommentaryUndo :<C-U>call <SID>undo()<CR>
 
-if !hasmapto('<Plug>Commentary') || maparg('\\','n') ==# '' && maparg('\','n') ==# ''
-  xmap \\  <Plug>Commentary
-  nmap \\  <Plug>Commentary
-  nmap \\\ <Plug>CommentaryLine
-  nmap \\u <Plug>CommentaryUndo
-endif
-
-if maparg('gc','n') ==# ''
+if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
   xmap gc  <Plug>Commentary
   nmap gc  <Plug>Commentary
   nmap gcc <Plug>CommentaryLine
   nmap gcu <Plug>CommentaryUndo
+endif
+
+if maparg('\\','n') ==# '' && maparg('\','n') ==# ''
+  xmap \\  <Plug>Commentary
+  nmap \\  <Plug>Commentary
+  nmap \\\ <Plug>CommentaryLine
+  nmap \\u <Plug>CommentaryUndo
 endif
 
 " vim:set et sw=2:
