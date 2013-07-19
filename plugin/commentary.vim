@@ -68,7 +68,7 @@ endif
 if maparg('\\','n') ==# '' && maparg('\','n') ==# ''
   xmap \\  <Plug>Commentary
   nmap \\  <Plug>Commentary
-  nmap \\\ <Plug>CommentaryLine
+  nmap \\\\ <Plug>CommentaryLine
   nmap \\u <Plug>CommentaryUndo
 endif
 
