@@ -66,10 +66,19 @@ if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
 endif
 
 if maparg('\\','n') ==# '' && maparg('\','n') ==# ''
+
+  " If B is missing from cpoptions, Vim will treat backslashes in the
+  " following mappings as escape sequences, when we actually want these to
+  " be literal backslashes. So temporarily set B in cpoptions.
+  let save_cpo = &cpoptions
+  set cpoptions+=B
+
   xmap \\  <Plug>Commentary
   nmap \\  <Plug>Commentary
-  nmap \\\\ <Plug>CommentaryLine
+  nmap \\\ <Plug>CommentaryLine
   nmap \\u <Plug>CommentaryUndo
+
+  let &cpoptions = save_cpo
 endif
 
 " vim:set et sw=2:
