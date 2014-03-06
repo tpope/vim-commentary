@@ -44,6 +44,7 @@ function! s:go(type,...) abort
     endif
     call setline(lnum,line)
   endfor
+  silent doautocmd User CommentaryPost
 endfunction
 
 function! s:undo() abort

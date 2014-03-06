@@ -25,4 +25,7 @@ gcc                     Comment or uncomment [count] lines.
 gcu                     Uncomment the current and adjacent commented lines.
 \\u
 
+The |User| CommentaryPost autocommand fires after a successful operation and
+can be used for advanced customization.
+
  vim:tw=78:et:ft=help:norl:
