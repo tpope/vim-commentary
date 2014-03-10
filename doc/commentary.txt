@@ -25,4 +25,28 @@ gcc                     Comment or uncomment [count] lines.
 gcu                     Uncomment the current and adjacent commented lines.
 \\u
 
+
+The CommentaryPost autocommand can be used to extend commentary. It is fired
+after the lines are commented/uncommented. The example below shows how to add
+a set of mappings that uses a modified 'commentstring': >
+
+   let g:commentary_suffix = ' XXX'
+   func! CommentarySetSuffix()
+      exe "setl commentstring=" . escape(substitute(&commentstring, '\ze%s', 
+               \ g:commentary_suffix, ''), ' "')
+      augroup CommentarySuffix
+         au!
+         autocmd User CommentaryPost call CommentaryRemoveSuffix()
+      augroup END
+   endfunc
+   func! CommentaryRemoveSuffix()
+      exe "setl commentstring=" . escape(substitute(&commentstring, 
+               \ g:commentary_suffix . '\ze%s', '', ''), ' "')
+      au! CommentarySuffix
+   endfunc
+   xmap <silent> gx  :<C-U>call CommentarySetSuffix()<CR>gv<Plug>Commentary
+   nmap <silent> gx  :call CommentarySetSuffix()<CR><Plug>Commentary
+   nmap <silent> gxx :call CommentarySetSuffix()<CR><Plug>CommentaryLine
+   nmap <silent> gxu :call CommentarySetSuffix()<CR><Plug>CommentaryUndo
+<
  vim:tw=78:et:ft=help:norl:
