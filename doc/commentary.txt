@@ -4,7 +4,7 @@ Author:  Tim Pope <http://tpo.pe/>
 License: Same terms as Vim itself (see |license|)
 
 Comment stuff out.  Then uncomment it later.  Relies on 'commentstring' to be
-correctly set.
+correctly set, or uses b:commentary_format if it is set.
 
 The gc mappings are preferred, while the \\ mappings are provided for
 backwards compatibility.
