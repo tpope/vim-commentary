@@ -72,7 +72,7 @@ if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
   nmap gcu <Plug>CommentaryUndo
 endif
 
-if maparg('\\','n') ==# '' && maparg('\','n') ==# ''
+if maparg('\\','n') ==# '' && maparg('\','n') ==# '' && (!exists('g:commentary_map_backslash') || g:commentary_map_backslash != 0)
   xmap \\  <Plug>Commentary
   nmap \\  <Plug>Commentary
   nmap \\\ <Plug>CommentaryLine
