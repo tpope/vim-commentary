@@ -53,7 +53,7 @@ function! s:go(type,...) abort
   endtry
 endfunction
 
-function! s:undo() abort
+function! s:textobject(inner) abort
   let [l, r] = s:surroundings()
   let lnums = [line('.')+1, line('.')-2]
   for [index, dir, bound, line] in [[0, -1, 1, ''], [1, 1, line('$'), '']]
@@ -62,20 +62,31 @@ function! s:undo() abort
       let line = matchstr(getline(lnums[index]+dir),'\S.*\s\@<!')
     endwhile
   endfor
-  call s:go(lnums[0], lnums[1])
-  silent! call repeat#set("\<Plug>CommentaryUndo")
+  while (a:inner || lnums[1] != line('$')) && empty(getline(lnums[0]))
+    let lnums[0] += 1
+  endwhile
+  while a:inner && empty(getline(lnums[1]))
+    let lnums[1] -= 1
+  endwhile
+  if lnums[0] <= lnums[1]
+    execute 'normal! 'lnums[0].'GV'.lnums[1].'G'
+  endif
 endfunction
 
 xnoremap <silent> <Plug>Commentary     :<C-U>call <SID>go(line("'<"),line("'>"))<CR>
 nnoremap <silent> <Plug>Commentary     :<C-U>set opfunc=<SID>go<CR>g@
 nnoremap <silent> <Plug>CommentaryLine :<C-U>set opfunc=<SID>go<Bar>exe 'norm! 'v:count1.'g@_'<CR>
-nnoremap <silent> <Plug>CommentaryUndo :<C-U>call <SID>undo()<CR>
+onoremap <silent> <Plug>Commentary        :<C-U>call <SID>textobject(0)<CR>
+nnoremap <silent> <Plug>ChangeCommentary c:<C-U>call <SID>textobject(1)<CR>
+nmap <silent> <Plug>CommentaryUndo <Plug>Commentary<Plug>Commentary
 
-if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
+if 1 || !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
   xmap gc  <Plug>Commentary
   nmap gc  <Plug>Commentary
-  nmap gcc <Plug>CommentaryLine
-  nmap gcu <Plug>CommentaryUndo
+  omap gc  <Plug>Commentary
+  nmap gcc <Plug>Commentary_
+  nmap cgc <Plug>ChangeCommentary
+  nmap gcu <Plug>Commentary<Plug>Commentary
 endif
 
 if maparg('\\','n') ==# '' && maparg('\','n') ==# '' && get(g:, 'commentary_map_backslash', 1)
