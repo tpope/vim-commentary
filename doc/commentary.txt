@@ -29,6 +29,16 @@ gcu
                                                 *:Commentary*
 :[range]Commentary      Comment or uncomment [range] lines
 
+In addition, you can yank a section of text before commenting it out:
+
+gcy{motion}             Yank and then comment or uncomment the lines that
+                        {motion} moves over.
+
+gcy                     Yank and then comment or uncomment [count] lines.
+
+{Visual}gcy             Yank and then comment or uncomment the highlighted
+                        lines.
+
 The |User| CommentaryPost autocommand fires after a successful operation and
 can be used for advanced customization.
 

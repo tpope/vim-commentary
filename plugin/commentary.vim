@@ -72,6 +72,24 @@ function! s:textobject(inner) abort
   endif
 endfunction
 
+function! s:setcommentaryreg(reg)
+  let s:targetreg = a:reg
+endfunction
+function! s:yankandcomment(type,...)
+  " only linewise operations make sense (to me, at least)
+  " so I am ignoring `type`
+  if a:0
+    let [mark1, mark2] = [a:type, a:1]
+    let reg = a:2
+  else
+    let [mark1, mark2] = ["'[", "']"]
+    let reg = get(s:, "targetreg", '"')
+  endif
+  execute 'normal! ' . mark1 . '"' . reg . 'y' . mark2 . ']'
+  call <SID>go(line(mark1),line(mark2))
+  execute 'normal! ' . mark1
+endfunction
+
 xnoremap <silent> <Plug>Commentary     :<C-U>call <SID>go(line("'<"),line("'>"))<CR>
 nnoremap <silent> <Plug>Commentary     :<C-U>set opfunc=<SID>go<CR>g@
 nnoremap <silent> <Plug>CommentaryLine :<C-U>set opfunc=<SID>go<Bar>exe 'norm! 'v:count1.'g@_'<CR>
@@ -80,6 +98,11 @@ nnoremap <silent> <Plug>ChangeCommentary c:<C-U>call <SID>textobject(1)<CR>
 nmap <silent> <Plug>CommentaryUndo <Plug>Commentary<Plug>Commentary
 command! -range -bar Commentary call s:go(<line1>,<line2>)
 
+xnoremap <silent> <Plug>CommentaryYank     :<C-U>call<SID>yankandcomment("'<", "'>", v:register)<CR>
+nnoremap <silent> <Plug>CommentaryYank     :<C-U>call <SID>setcommentaryreg(v:register)<CR>:set opfunc=<SID>yankandcomment<CR>g@
+nnoremap <silent> <Plug>CommentaryYankLine :<C-U>call <SID>setcommentaryreg(v:register)<CR>:set opfunc=<SID>yankandcomment<Bar>exe 'norm! 'v:count1.'g@_'<CR>
+
+xnoremap <silent> <Plug>Commentary     :<C-U>call <SID>go(line("'<"),line("'>"))<CR>
 if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
   xmap gc  <Plug>Commentary
   nmap gc  <Plug>Commentary
@@ -87,6 +110,9 @@ if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
   nmap gcc <Plug>CommentaryLine
   nmap cgc <Plug>ChangeCommentary
   nmap gcu <Plug>Commentary<Plug>Commentary
+  xmap gcy   <Plug>CommentaryYank
+  nmap gcy   <Plug>CommentaryYank
+  nmap gcyy  <Plug>CommentaryYankLine
 endif
 
 if maparg('\\','n') ==# '' && maparg('\','n') ==# '' && get(g:, 'commentary_map_backslash', 1)
