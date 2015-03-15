@@ -90,6 +90,18 @@ function! s:yankandcomment(type,...)
   execute 'normal! ' . mark1
 endfunction
 
+function! s:yankcommentpaste(type,...)
+  if a:0
+    let [mark1, mark2] = [a:type, a:1]
+  else
+    let [mark1, mark2] = ["'[", "']"]
+  endif
+  let savereg = @"
+  execute "normal " . mark1 ."gcy" . mark2 . "]"
+  execute "normal! " . mark2 . "p" . mark1
+  let @" = savereg
+endfunction
+
 xnoremap <silent> <Plug>Commentary     :<C-U>call <SID>go(line("'<"),line("'>"))<CR>
 nnoremap <silent> <Plug>Commentary     :<C-U>set opfunc=<SID>go<CR>g@
 nnoremap <silent> <Plug>CommentaryLine :<C-U>set opfunc=<SID>go<Bar>exe 'norm! 'v:count1.'g@_'<CR>
@@ -102,6 +114,10 @@ xnoremap <silent> <Plug>CommentaryYank     :<C-U>call<SID>yankandcomment("'<", "
 nnoremap <silent> <Plug>CommentaryYank     :<C-U>call <SID>setcommentaryreg(v:register)<CR>:set opfunc=<SID>yankandcomment<CR>g@
 nnoremap <silent> <Plug>CommentaryYankLine :<C-U>call <SID>setcommentaryreg(v:register)<CR>:set opfunc=<SID>yankandcomment<Bar>exe 'norm! 'v:count1.'g@_'<CR>
 
+xnoremap <silent> <Plug>CommentaryDupe     :<C-U>call<SID>yankcommentpaste("'<", "'>", v:register)<CR>:normal! '>j<CR>
+nnoremap <silent> <Plug>CommentaryDupe     :<C-U>call <SID>setcommentaryreg(v:register)<CR>:set opfunc=<SID>yankcommentpaste<CR>g@
+nnoremap <silent> <Plug>CommentaryDupeLine :<C-U>call <SID>setcommentaryreg(v:register)<CR>:set opfunc=<SID>yankcommentpaste<Bar>exe 'norm! 'v:count1.'g@_'<CR>
+
 xnoremap <silent> <Plug>Commentary     :<C-U>call <SID>go(line("'<"),line("'>"))<CR>
 if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
   xmap gc  <Plug>Commentary
@@ -113,6 +129,9 @@ if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
   xmap gcy   <Plug>CommentaryYank
   nmap gcy   <Plug>CommentaryYank
   nmap gcyy  <Plug>CommentaryYankLine
+  xmap gcd   <Plug>CommentaryDupe
+  nmap gcd   <Plug>CommentaryDupe
+  nmap gcdd  <Plug>CommentaryDupeLine
 endif
 
 if maparg('\\','n') ==# '' && maparg('\','n') ==# '' && get(g:, 'commentary_map_backslash', 1)
