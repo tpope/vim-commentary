@@ -8,7 +8,7 @@ if exists("g:loaded_commentary") || &cp || v:version < 700
 endif
 let g:loaded_commentary = 1
 
-function! s:surroundings() abort
+function! commentary#surroundings() abort
   return split(get(b:, 'commentary_format', substitute(substitute(
         \ &commentstring, '\S\zs%s',' %s','') ,'%s\ze\S', '%s ', '')), '%s', 1)
 endfunction
@@ -28,7 +28,7 @@ function! s:go(type,...) abort
     let [lnum1, lnum2] = [line("'["), line("']")]
   endif
 
-  let [l, r] = s:surroundings()
+  let [l, r] = commentary#surroundings()
   let uncomment = 2
   for lnum in range(lnum1,lnum2)
     let line = matchstr(getline(lnum),'\S.*\s\@<!')
@@ -62,7 +62,7 @@ function! s:go(type,...) abort
 endfunction
 
 function! s:textobject(inner) abort
-  let [l_, r_] = s:surroundings()
+  let [l_, r_] = commentary#surroundings()
   let [l, r] = [l_, r_]
   let lnums = [line('.')+1, line('.')-2]
   for [index, dir, bound, line] in [[0, -1, 1, ''], [1, 1, line('$'), '']]
