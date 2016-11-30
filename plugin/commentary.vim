@@ -22,6 +22,11 @@ function! s:strip_white_space(l,r,line) abort
 endfunction
 
 function! s:go(type,...) abort
+  if &commentstring == ''
+    echohl WarningMsg | echom 'commentary: commentstring not set' | echohl NONE
+    return
+  endif
+
   if a:0
     let [lnum1, lnum2] = [a:type, a:1]
   else
