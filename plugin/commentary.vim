@@ -8,9 +8,15 @@ if exists("g:loaded_commentary") || &cp || v:version < 700
 endif
 let g:loaded_commentary = 1
 
+if !exists("g:commentary_marker")
+  let g:commentary_marker = ''
+endif 
+
 function! s:surroundings() abort
+  " Ensure whitespace around %s and postfix comment leader with ~ to make auto
+  " commented code easier to find.
   return split(get(b:, 'commentary_format', substitute(substitute(
-        \ &commentstring, '\S\zs%s',' %s','') ,'%s\ze\S', '%s ', '')), '%s', 1)
+        \ &commentstring, '\S\zs%s', g:commentary_marker.' %s','') ,'%s\ze\S', '%s ', '')), '%s', 1)
 endfunction
 
 function! s:strip_white_space(l,r,line) abort
