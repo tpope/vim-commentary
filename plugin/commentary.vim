@@ -32,10 +32,12 @@ function! s:go(type,...) abort
   endif
 
   let [l, r] = s:surroundings()
+  let l1 = l
   let uncomment = 2
   for lnum in range(lnum1,lnum2)
     let line = matchstr(getline(lnum),'\S.*\s\@<!')
     let [l, r] = s:strip_white_space(l,r,line)
+    let l1 = strlen(l) < strlen(l1) ? l : l1
     if line != '' && (stridx(line,l) || line[strlen(line)-strlen(r) : -1] != r)
       let uncomment = 0
     endif
@@ -49,7 +51,7 @@ function! s:go(type,...) abort
             \'\=substitute(submatch(0)+1-uncomment,"^0$\\|^-\\d*$","","")','g')
     endif
     if uncomment
-      let line = substitute(line,'\S.*\s\@<!','\=submatch(0)[strlen(l):-strlen(r)-1]','')
+      let line = substitute(line,'\S.*\s\@<!','\=submatch(0)[strlen(l1):-strlen(r)-1]','')
     else
       let line = substitute(line,'^\%('.matchstr(getline(lnum1),'^\s*').'\|\s*\)\zs.*\S\@<=','\=l.submatch(0).r','')
     endif
