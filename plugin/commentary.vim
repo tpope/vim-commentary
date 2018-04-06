@@ -85,13 +85,13 @@ function! s:textobject(inner) abort
   endif
 endfunction
 
-xnoremap <silent> <Plug>Commentary     :<C-U>call <SID>go(line("'<"),line("'>"))<CR>
+command! -range -bar Commentary call s:go(<line1>,<line2>)
+xnoremap <silent> <Plug>Commentary     :Commentary<CR>
 nnoremap <silent> <Plug>Commentary     :<C-U>set opfunc=<SID>go<CR>g@
 nnoremap <silent> <Plug>CommentaryLine :<C-U>set opfunc=<SID>go<Bar>exe 'norm! 'v:count1.'g@_'<CR>
 onoremap <silent> <Plug>Commentary        :<C-U>call <SID>textobject(0)<CR>
 nnoremap <silent> <Plug>ChangeCommentary c:<C-U>call <SID>textobject(1)<CR>
 nmap <silent> <Plug>CommentaryUndo <Plug>Commentary<Plug>Commentary
-command! -range -bar Commentary call s:go(<line1>,<line2>)
 
 if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
   xmap gc  <Plug>Commentary
