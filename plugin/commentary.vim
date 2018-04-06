@@ -29,7 +29,7 @@ function! s:go(...) abort
     let &opfunc = matchstr(expand('<sfile>'), '[^. ]*$')
     return 'g@'
   elseif a:0 > 1
-    let [lnum1, lnum2] = [a:type, a:1]
+    let [lnum1, lnum2] = [a:1, a:2]
   else
     let [lnum1, lnum2] = [line("'["), line("']")]
   endif
