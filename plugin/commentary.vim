@@ -24,8 +24,11 @@ function! s:strip_white_space(l,r,line) abort
   return [l, r]
 endfunction
 
-function! s:go(type,...) abort
-  if a:0
+function! s:go(...) abort
+  if !a:0
+    let &opfunc = matchstr(expand('<sfile>'), '[^. ]*$')
+    return 'g@'
+  elseif a:0 > 1
     let [lnum1, lnum2] = [a:type, a:1]
   else
     let [lnum1, lnum2] = [line("'["), line("']")]
@@ -62,6 +65,7 @@ function! s:go(type,...) abort
   finally
     let &modelines = modelines
   endtry
+  return ''
 endfunction
 
 function! s:textobject(inner) abort
@@ -87,8 +91,8 @@ endfunction
 
 command! -range -bar Commentary call s:go(<line1>,<line2>)
 xnoremap <silent> <Plug>Commentary     :Commentary<CR>
-nnoremap <silent> <Plug>Commentary     :<C-U>set opfunc=<SID>go<CR>g@
-nnoremap <silent> <Plug>CommentaryLine :<C-U>set opfunc=<SID>go<Bar>exe 'norm! 'v:count1.'g@_'<CR>
+nnoremap <expr>   <Plug>Commentary     <SID>go()
+nnoremap <expr>   <Plug>CommentaryLine <SID>go() . '_'
 onoremap <silent> <Plug>Commentary        :<C-U>call <SID>textobject(0)<CR>
 nnoremap <silent> <Plug>ChangeCommentary c:<C-U>call <SID>textobject(1)<CR>
 nmap <silent> <Plug>CommentaryUndo <Plug>Commentary<Plug>Commentary
@@ -97,7 +101,7 @@ if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
   xmap gc  <Plug>Commentary
   nmap gc  <Plug>Commentary
   omap gc  <Plug>Commentary
-  nmap gcc <Plug>CommentaryLine
+  nmap gcc <Plug>Commentary_
   if maparg('c','n') ==# ''
     nmap cgc <Plug>ChangeCommentary
   endif
