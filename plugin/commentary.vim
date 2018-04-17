@@ -95,7 +95,7 @@ nnoremap <expr>   <Plug>Commentary     <SID>go()
 nnoremap <expr>   <Plug>CommentaryLine <SID>go() . '_'
 onoremap <silent> <Plug>Commentary        :<C-U>call <SID>textobject(0)<CR>
 nnoremap <silent> <Plug>ChangeCommentary c:<C-U>call <SID>textobject(1)<CR>
-nmap <silent> <Plug>CommentaryUndo <Plug>Commentary<Plug>Commentary
+nmap <silent> <Plug>CommentaryUndo :echoerr "Change your <Plug>CommentaryUndo map to <Plug>Commentary<Plug>Commentary"<CR>
 
 if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
   xmap gc  <Plug>Commentary
