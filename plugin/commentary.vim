@@ -92,7 +92,7 @@ endfunction
 command! -range -bar Commentary call s:go(<line1>,<line2>)
 xnoremap <silent> <Plug>Commentary     :Commentary<CR>
 nnoremap <expr>   <Plug>Commentary     <SID>go()
-nnoremap <expr>   <Plug>CommentaryLine <SID>go() . '_'
+nnoremap <expr>   <Plug>Commentary_    <SID>go() . '_'
 onoremap <silent> <Plug>Commentary        :<C-U>call <SID>textobject(0)<CR>
 nnoremap <silent> <Plug>ChangeCommentary c:<C-U>call <SID>textobject(1)<CR>
 nmap <silent> <Plug>CommentaryUndo <Plug>Commentary<Plug>Commentary
