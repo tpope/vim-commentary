@@ -8,7 +8,7 @@ if exists("g:loaded_commentary") || v:version < 700
 endif
 let g:loaded_commentary = 1
 
-command! -range -bar Commentary call s:go(<line1>,<line2>)
+command! -range -bar Commentary call commentary#go(<line1>,<line2>)
 xnoremap <silent> <Plug>Commentary     :Commentary<CR>
 nnoremap <expr>   <Plug>Commentary     commentary#go()
 nnoremap <expr>   <Plug>CommentaryLine commentary#go() . '_'
