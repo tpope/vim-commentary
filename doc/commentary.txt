@@ -26,6 +26,21 @@ gcu
                                                 *:Commentary*
 :[range]Commentary      Comment or uncomment [range] lines
 
+
+                                                *g:commentary_marker*
+g:commentary_marker     A string that marks comments inserted by commentary.
+                        This marker is inserted immediately after the comment
+                        string. Useful if commentary is only used to disable
+                        code (rather than inserting explanatory comments).
+                        
+                        For example, >
+                            let g:commentary_marker = '~'
+<                        will comment >
+                            f();
+<                        into >
+                            //~ f();
+<
+
 The |User| CommentaryPost autocommand fires after a successful operation and
 can be used for advanced customization.
 
