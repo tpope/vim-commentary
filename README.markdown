@@ -25,6 +25,10 @@ support:
     cd ~/.vim/pack/tpope/start
     git clone https://tpope.io/vim/commentary.git
     vim -u NONE -c "helptags commentary/doc" -c q
+    
+Via pathogen:
+
+    git clone --depth=1 https://github.com/tpope/vim-commentary.git ~/.vim/bundle/vim-commentary.vim   
 
 ## FAQ
 
