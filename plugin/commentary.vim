@@ -7,6 +7,7 @@ if exists("g:loaded_commentary") || v:version < 700
   finish
 endif
 let g:loaded_commentary = 1
+let s:has_nvim_set_lines = has('nvim') && exists('*nvim_buf_set_lines')
 
 function! s:surroundings() abort
   return split(get(b:, 'commentary_format', substitute(substitute(substitute(
@@ -50,6 +51,7 @@ function! s:go(...) abort
     let indent = '^\s*'
   endif
 
+  let lines = []
   for lnum in range(lnum1,lnum2)
     let line = getline(lnum)
     if strlen(r) > 2 && l.r !~# '\\'
@@ -62,8 +64,15 @@ function! s:go(...) abort
     else
       let line = substitute(line,'^\%('.matchstr(getline(lnum1),indent).'\|\s*\)\zs.*\S\@<=','\=l.submatch(0).r','')
     endif
-    call setline(lnum,line)
+    if !s:has_nvim_set_lines
+      call setline(lnum,line)
+    else
+      call add(lines, line)
+    endif
   endfor
+  if s:has_nvim_set_lines
+    call nvim_buf_set_lines(bufnr(''), lnum1 - 1, lnum2, v:false, lines)
+  endif
   let modelines = &modelines
   try
     set modelines=0
