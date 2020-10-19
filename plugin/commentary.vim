@@ -26,17 +26,29 @@ endfunction
 
 function! s:go(...) abort
   if !a:0
-    let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
+    let &operatorfunc = expand('<SID>') . 'go'
     return 'g@'
-  elseif a:0 > 1
-    let [lnum1, lnum2] = [a:1, a:2]
-  else
-    let [lnum1, lnum2] = [line("'["), line("']")]
   endif
 
+  let [l1, l2] = a:0 > 1 ? [a:1, a:2] : [line("'["), line("']")]
+  call s:apply(l1, l2)
+endfunction
+
+function! s:yank(...) abort
+  if !a:0
+    let &operatorfunc = expand('<SID>') . 'yank'
+    return 'g@'
+  endif
+
+  let [l1, l2] = a:0 > 1 ? [a:1, a:2] : [line("'["), line("']")]
+  execute l1 . ',' . l2 . 'yank' v:register
+  call s:apply(l1, l2)
+endfunction
+
+function! s:apply(lnum1, lnum2) abort
   let [l, r] = s:surroundings()
   let uncomment = 2
-  for lnum in range(lnum1,lnum2)
+  for lnum in range(a:lnum1,a:lnum2)
     let line = matchstr(getline(lnum),'\S.*\s\@<!')
     let [l, r] = s:strip_white_space(l,r,line)
     if len(line) && (stridx(line,l) || line[strlen(line)-strlen(r) : -1] != r)
@@ -51,7 +63,7 @@ function! s:go(...) abort
   endif
 
   let lines = []
-  for lnum in range(lnum1,lnum2)
+  for lnum in range(a:lnum1,a:lnum2)
     let line = getline(lnum)
     if strlen(r) > 2 && l.r !~# '\\'
       let line = substitute(line,
@@ -61,11 +73,11 @@ function! s:go(...) abort
     if uncomment
       let line = substitute(line,'\S.*\s\@<!','\=submatch(0)[strlen(l):-strlen(r)-1]','')
     else
-      let line = substitute(line,'^\%('.matchstr(getline(lnum1),indent).'\|\s*\)\zs.*\S\@<=','\=l.submatch(0).r','')
+      let line = substitute(line,'^\%('.matchstr(getline(a:lnum1),indent).'\|\s*\)\zs.*\S\@<=','\=l.submatch(0).r','')
     endif
     call add(lines, line)
   endfor
-  call setline(lnum1, lines)
+  call setline(a:lnum1, lines)
   let modelines = &modelines
   try
     set modelines=0
@@ -104,12 +116,18 @@ nnoremap <expr>   <Plug>CommentaryLine <SID>go() . '_'
 onoremap <silent> <Plug>Commentary        :<C-U>call <SID>textobject(get(v:, 'operator', '') ==# 'c')<CR>
 nnoremap <silent> <Plug>ChangeCommentary c:<C-U>call <SID>textobject(1)<CR>
 nmap <silent> <Plug>CommentaryUndo :echoerr "Change your <Plug>CommentaryUndo map to <Plug>Commentary<Plug>Commentary"<CR>
+xnoremap <expr> <Plug>(CommentaryYank)     <SID>yank()
+nnoremap <expr> <Plug>(CommentaryYank)     <SID>yank()
+nnoremap <expr> <Plug>(CommentaryYankLine) <SID>yank() . '_'
 
 if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
   xmap gc  <Plug>Commentary
   nmap gc  <Plug>Commentary
   omap gc  <Plug>Commentary
   nmap gcc <Plug>CommentaryLine
+  xmap gy  <Plug>(CommentaryYank)
+  nmap gy  <Plug>(CommentaryYank)
+  nmap gyy <Plug>(CommentaryYankLine)
   if maparg('c','n') ==# '' && !exists('v:operator')
     nmap cgc <Plug>ChangeCommentary
   endif

@@ -18,6 +18,16 @@ gcc                     Comment or uncomment [count] lines.
                                                 *v_gc*
 {Visual}gc              Comment or uncomment the highlighted lines.
 
+                                                *gy*
+gy{motion}              Yank and comment or uncomment lines that {motion}
+                        moves over.
+
+                                                *gyy*
+gyy                     Yank and comment or uncomment [count] lines.
+
+                                                *v_gy*
+{Visual}gy              Yank and comment or uncomment the highlighted lines.
+
                                                 *o_gc*
 gc                      Text object for a comment (operator pending mode
                         only.)
