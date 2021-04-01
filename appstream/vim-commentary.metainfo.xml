@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+<id>vim-commentary</id>
+<extends>gvim.desktop</extends>
+<name>commentary.vim</name>
+<summary>Comment stuff out; takes a motion as a target</summary>
+<url type="homepage">http://www.vim.org/scripts/script.php?script_id=3695</url>
+<metadata_license>CC0-1.0</metadata_license>
+<project_license>VIM</project_license>
+<updatecontact>v.ondruch@gmail.com</updatecontact>
+</component>
