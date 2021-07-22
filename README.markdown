@@ -26,6 +26,25 @@ support:
     git clone https://tpope.io/vim/commentary.git
     vim -u NONE -c "helptags commentary/doc" -c q
 
+## Tips
+
+Toggle comments on the previous selection
+```
+nmap gcv gvgc
+```
+
+Toggle comments on the previous pasted lines
+```
+nnoremap gp `[v`]
+nmap gcp gpgc
+```
+
+Paste and toggle comments on this pasted lines
+```
+nnoremap gp `[v`]
+nmap gcp pgpgc
+```
+
 ## FAQ
 
 > My favorite file type isn't supported!
