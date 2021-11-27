@@ -133,12 +133,3 @@ if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
   nmap gcd   <Plug>CommentaryDupe
   nmap gcdd  <Plug>CommentaryDupeLine
 endif
-
-if maparg('\\','n') ==# '' && maparg('\','n') ==# '' && get(g:, 'commentary_map_backslash', 1)
-  xmap \\  <Plug>Commentary:echomsg '\\ is deprecated. Use gc'<CR>
-  nmap \\  :echomsg '\\ is deprecated. Use gc'<CR><Plug>Commentary
-  nmap \\\ <Plug>CommentaryLine:echomsg '\\ is deprecated. Use gc'<CR>
-  nmap \\u <Plug>CommentaryUndo:echomsg '\\ is deprecated. Use gc'<CR>
-endif
-
-" vim:set et sw=2:
