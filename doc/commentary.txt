@@ -26,6 +26,10 @@ gc                      Text object for a comment (operator pending mode
 gcgc                    Uncomment the current and adjacent commented lines.
 gcu
 
+                                                *i_CTRL-/* *i_CTRL-_*
+CTRL-/ or CTRL-_        Insert comment delimiters around the cursor in insert
+                        mode.
+
                                                 *:Commentary*
 :[range]Commentary      Comment or uncomment [range] lines
 
