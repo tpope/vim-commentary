@@ -102,12 +102,18 @@ function! s:textobject(inner) abort
   endif
 endfunction
 
+function s:insert()
+  let [l, r] = s:surroundings()
+  return l . r . repeat("\<C-G>U\<Left>", strchars(r))
+endfunction
+
 command! -range -bar -bang Commentary call s:go(<line1>,<line2>,<bang>0)
 xnoremap <expr>   <Plug>Commentary     <SID>go()
 nnoremap <expr>   <Plug>Commentary     <SID>go()
 nnoremap <expr>   <Plug>CommentaryLine <SID>go() . '_'
 onoremap <silent> <Plug>Commentary        :<C-U>call <SID>textobject(get(v:, 'operator', '') ==# 'c')<CR>
 nnoremap <silent> <Plug>ChangeCommentary c:<C-U>call <SID>textobject(1)<CR>
+inoremap <expr>   <Plug>CommentaryInsert <SID>insert()
 nmap <silent> <Plug>CommentaryUndo :echoerr "Change your <Plug>CommentaryUndo map to <Plug>Commentary<Plug>Commentary"<CR>
 
 if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
@@ -116,6 +122,8 @@ if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
   omap gc  <Plug>Commentary
   nmap gcc <Plug>CommentaryLine
   nmap gcu <Plug>Commentary<Plug>Commentary
+  imap <C-/> <C-G>u<Plug>CommentaryInsert
+  imap <C-_> <C-G>u<Plug>CommentaryInsert
 endif
 
 " vim:set et sw=2:
