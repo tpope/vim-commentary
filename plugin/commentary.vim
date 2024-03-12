@@ -54,7 +54,7 @@ function! s:go(...) abort
   let lines = []
   for lnum in range(lnum1,lnum2)
     let line = getline(lnum)
-    if strlen(r) > 2 && l.r !~# '\\'
+    if strlen(r) > 2 && l.r !~# '\\' && !force_uncomment
       let line = substitute(line,
             \'\M' . substitute(l, '\ze\S\s*$', '\\zs\\d\\*\\ze', '') . '\|' . substitute(r, '\S\zs', '\\zs\\d\\*\\ze', ''),
             \'\=substitute(submatch(0)+1-uncomment,"^0$\\|^-\\d*$","","")','g')
