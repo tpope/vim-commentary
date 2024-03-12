@@ -60,7 +60,7 @@ function! s:go(...) abort
             \'\=substitute(submatch(0)+1-uncomment,"^0$\\|^-\\d*$","","")','g')
     endif
     if force_uncomment
-      if line =~ '^\s*' . l
+      if line =~ '\v\C^\s*' . escape(l, '!#$%&()*+,-./:;<=>?@[\]^{|}~')
         let line = substitute(line,'\S.*\s\@<!','\=submatch(0)[strlen(l):-strlen(r)-1]','')
       endif
     elseif uncomment
