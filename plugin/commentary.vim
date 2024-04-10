@@ -98,7 +98,7 @@ function! s:textobject(inner) abort
     let lnums[1] -= 1
   endwhile
   if lnums[0] <= lnums[1]
-    execute 'normal! 'lnums[0].'GV'.lnums[1].'G'
+    execute 'normal! '.lnums[0].'GV'.lnums[1].'G'
   endif
 endfunction
 
