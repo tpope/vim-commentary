@@ -109,7 +109,11 @@ nnoremap <expr>   <Plug>CommentaryLine <SID>go() . '_'
 onoremap <silent> <Plug>Commentary        :<C-U>call <SID>textobject(get(v:, 'operator', '') ==# 'c')<CR>
 nnoremap <silent> <Plug>ChangeCommentary c:<C-U>call <SID>textobject(1)<CR>
 
-if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
+
+if !exists('g:commentary_bind_keys')
+  let g:commentary_bind_keys = 1
+endif
+if g:commentary_bind_keys && (!hasmapto('<Plug>Commentary') || maparg('gc','n') ==# '')
   xmap gc  <Plug>Commentary
   nmap gc  <Plug>Commentary
   omap gc  <Plug>Commentary
